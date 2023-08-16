@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 async function sendChatQuery(message) {
   try {
-    const response = await fetch('http://localhost:4000/', {
+    const response = await fetch('PORT URL', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

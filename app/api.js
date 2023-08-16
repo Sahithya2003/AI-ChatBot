@@ -5,15 +5,15 @@ const bodyParser = require('body-parser');
 const cors = require('cors'); // Import the cors package
 
 const app = express();
-const PORT = 4000;
+const PORT = 'PORT';
 
 app.use(bodyParser.json());
 app.use(cors()); // Use the cors middleware
 app.post('/', async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     try {
-        const projectId = 'central-pod-395907';
-        const sessionClient = new dialogflow.SessionsClient({ keyFilename: './central-pod-395907-286472fd83af.json' });
+        const projectId = 'PROJECT ID';
+        const sessionClient = new dialogflow.SessionsClient({ keyFilename: 'JSON FILE PATH' });
         const sessionPath = sessionClient.projectAgentSessionPath(projectId, v4());
 
         const request = {
