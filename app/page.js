@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 async function sendChatQuery(message) {
   try {
-    const response = await fetch('http://localhost:4000/', {
+    const response = await fetch('https://kimi-server2.onrender.com', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -13,7 +13,7 @@ async function sendChatQuery(message) {
 
     const data = await response.json();
     console.log('Success:', data);
-    
+
     return data.response; // Return the response message
   } catch (error) {
     console.error('Error:', error);
