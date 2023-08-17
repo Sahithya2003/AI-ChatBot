@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 async function sendChatQuery(message) {
   try {
@@ -22,9 +22,17 @@ async function sendChatQuery(message) {
 }
 
 const Home = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    { text: 'Welcome to Kimi Chatbox', type: 'bot' },
+  ]);
   const [isLoading, setIsLoading] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
+  const chatContainerRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll to the bottom of the chat container
+    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  }, [messages]);
 
   const handleSendClick = async () => {
     setIsLoading(true);
@@ -47,11 +55,22 @@ const Home = () => {
       <div className="py-2 px-4 bg-teal-600 w-full rounded-t-lg">
         <span className="text-3xl font-bold">Kimi</span>
       </div>
-      <div className="flex-grow w-full mx-auto border border-white/30 rounded-b-lg overflow-hidden backdrop-blur-sm">
+      <div
+        className="flex-grow w-full mx-auto border border-white/30 rounded-b-lg overflow-auto backdrop-blur-sm"
+        ref={chatContainerRef}
+      >
         <div className="flex flex-col gap-2 p-4">
           {messages.map((message, index) => (
-            <div key={index} className={`p-2  rounded-lg ${message.type === 'user' ? 'bg-transparent text-white ' : 'bg-gray-900 text-white'}`}>
-              <span className="text-sm font-bold rounded text-teal-600">{message.type === 'user' ? 'User:' : 'Bot:'}</span>
+            <div
+              key={index}
+              className={`p-2 rounded-lg ${message.type === 'user' ? 'bg-transparent text-white' : 'bg-gray-900 text-white'
+                }`}
+            >
+              {message.type === 'user' ? (
+                <span className="text-sm font-bold rounded text-teal-600">User:</span>
+              ) : (
+                <span className="text-sm font-bold rounded text-teal-600">Bot:</span>
+              )}
               <div>{message.text}</div>
             </div>
           ))}
@@ -60,25 +79,21 @@ const Home = () => {
       <div className="flex mt-2 w-full">
         <input
           type="text"
-          className="flex-grow p-2 border border-white/10 rounded-l-lg text-white bg-transparent "
+          className="flex-grow p-2 border border-white/10 rounded-l-lg text-white bg-transparent"
           placeholder="Type a message..."
           value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
+          onChange={e => setInputMessage(e.target.value)}
         />
         <button
           onClick={handleSendClick}
-          className={`bg-teal-600 text-white py-2 px-4 rounded-l-none rounded-r-lg ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'}`}
+          className={`bg-teal-600 text-white py-2 px-4 rounded-l-none rounded-r-lg ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'
+            }`}
           disabled={isLoading}
         >
           {isLoading ? 'Sending...' : 'Send'}
         </button>
       </div>
     </div>
-
-
-
-
-
   );
 };
 
