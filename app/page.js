@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 async function sendChatQuery(message) {
   try {
-    const response = await fetch('PORT URL', {
+    const response = await fetch('http://localhost:4000/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -13,6 +13,7 @@ async function sendChatQuery(message) {
 
     const data = await response.json();
     console.log('Success:', data);
+    
     return data.response; // Return the response message
   } catch (error) {
     console.error('Error:', error);
@@ -59,7 +60,7 @@ const Home = () => {
       <div className="flex mt-2 w-full">
         <input
           type="text"
-          className="flex-grow p-2 border border-white/30 rounded-l-lg text-white bg-transparent "
+          className="flex-grow p-2 border border-white/10 rounded-l-lg text-white bg-transparent "
           placeholder="Type a message..."
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
